@@ -21,5 +21,10 @@ public class ExceptionHandlerEx {
         ResponceDTO responceDTO =new ResponceDTO("Exception  While performing rest api",errorMsg);
         return new ResponseEntity<>(responceDTO, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(CostomException.class)
+    public ResponseEntity<ResponceDTO> handleCustomException(CostomException exception){
+        ResponceDTO responceDTO=new ResponceDTO("Exception during performing Rest API",exception);
+        return new ResponseEntity<>(responceDTO,HttpStatus.BAD_REQUEST);
+    }
 
 }

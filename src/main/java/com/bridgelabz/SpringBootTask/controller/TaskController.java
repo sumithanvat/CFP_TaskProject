@@ -17,23 +17,21 @@ import java.util.Optional;
 @RestController
 public class TaskController {
 
-
     @Autowired
-    private TaskRepository taskRepository;
-    @Autowired
-    private TaskService taskService;
+  private TaskService taskService;
 
     @PostMapping("/addtask")
     public ResponseEntity<ResponceDTO> addTask(@RequestBody@Valid TaskDTO taskDTO){
         ResponceDTO responceDTO=new ResponceDTO("Data added successfully",taskService.addTask(taskDTO));
         return new ResponseEntity<>(responceDTO, HttpStatus.CREATED);
     }
-    @GetMapping("/getAllTask")
-    public List<Task> getAllTask() {
-        return taskService.getAllTask();
-
+    @GetMapping("/GetAllTask")
+    public ResponseEntity<ResponceDTO> getAllTask() {
+        ResponceDTO responceDTO = new ResponceDTO(" All Data Retrieve Successfully",
+                taskService.findAll());
+        return new ResponseEntity<>(responceDTO, HttpStatus.OK);
     }
-    @GetMapping("/getbyid/{id}")
+    @GetMapping("/getbyid/task/{id}")
     public ResponseEntity<ResponceDTO> getById(@PathVariable long id){
         ResponceDTO responceDTO=new ResponceDTO("Data Fetch successfully",taskService.getById(id));
         return new ResponseEntity<>(responceDTO,HttpStatus.OK);
@@ -42,15 +40,12 @@ public class TaskController {
     public ResponseEntity<ResponceDTO> updateTask(@PathVariable long id, @RequestBody TaskDTO taskDTO) {
         ResponceDTO responseDTO = new ResponceDTO("data updated",taskService.updateTask(id,taskDTO));
         return  new ResponseEntity<>(responseDTO,HttpStatus.OK);
+
+
     }
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/task/{id}")
     public ResponseEntity<String> deleteTask(@PathVariable long id) {
-        Optional<Task> messageData = taskRepository.findById(id);
-        if (messageData.isPresent()) {
-            taskRepository.deleteById(id);
-            return ResponseEntity.ok("Message deleted successfully");
-        }
-        return ResponseEntity.notFound().build();
+        return taskService.deleteTask(id);
     }
 
 }

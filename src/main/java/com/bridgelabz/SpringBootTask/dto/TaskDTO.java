@@ -2,6 +2,7 @@ package com.bridgelabz.SpringBootTask.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
@@ -14,5 +15,5 @@ public class TaskDTO {
     @NotEmpty(message = "Description Pattern is not matching")
     public String description;
     public LocalDate dueDate;
-    public boolean completed;
+
 }
